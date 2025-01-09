@@ -7,11 +7,13 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Map;
 
 @NoArgsConstructor
 @Log4j2
@@ -26,12 +28,12 @@ public class QuartzService implements Job {
         String url = jobDataMap.getString("url");
         String method = jobDataMap.getString("method");
         String body = jobDataMap.getString("body");
-//        Map<String,String> headers = (Map<String,String>) jobDataMap.get("headers");
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        if(headers!= null) {
-//            headers.putAll(headers);
-//        }
-        HttpEntity<String> httpEntity = new HttpEntity<>(body);
+        Map<String,String> headers = (Map<String,String>) jobDataMap.get("headers");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if(headers!= null) {
+            headers.putAll(headers);
+        }
+        HttpEntity<String> httpEntity = new HttpEntity<>(body,httpHeaders);
 
         RestTemplate template = new RestTemplate();
         template.exchange(URI.create(url), HttpMethod.valueOf(method), httpEntity , String.class);
