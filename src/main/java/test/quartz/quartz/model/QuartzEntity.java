@@ -1,12 +1,13 @@
 package test.quartz.quartz.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import test.quartz.quartz.service.QuartzEntityListener;
 
+import javax.persistence.*;
+
 @Entity
-@Table(name = "quartz_entity", schema = "spring")
+@Table(name = "quartz_entity")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

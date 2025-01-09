@@ -1,20 +1,31 @@
 package test.quartz.quartz.service;
 
-import jakarta.persistence.PostPersist;
-import jakarta.persistence.PostRemove;
-import jakarta.persistence.PostUpdate;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 import test.quartz.quartz.model.QuartzEntity;
 
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
+
 @Service
 @Log4j2
-public class QuartzEntityListener {
+@Configurable
+public class QuartzEntityListener  {
+
+    private Scheduler scheduler;
 
     @Autowired
-    private Scheduler scheduler;
+    public QuartzEntityListener(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
+
+    public QuartzEntityListener() {
+
+    }
 
     @PostPersist
     @PostUpdate

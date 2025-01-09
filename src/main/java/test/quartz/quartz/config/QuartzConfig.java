@@ -8,19 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableTransactionManagement
 public class QuartzConfig {
 
-    @Autowired
-    private  DataSource dataSource;
+    private  final DataSource dataSource;
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean factoryBean = new SchedulerFactoryBean();
-//        factoryBean.setDataSource(dataSource);
+        factoryBean.setDataSource(dataSource);
         factoryBean.setOverwriteExistingJobs(true);
         factoryBean.setStartupDelay(10);
         return factoryBean;
